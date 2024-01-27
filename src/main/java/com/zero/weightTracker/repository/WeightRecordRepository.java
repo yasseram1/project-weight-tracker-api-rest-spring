@@ -10,4 +10,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface WeightRecordRepository extends JpaRepository<WeightRecord, Long> {
+
+    Page<WeightRecord> findByGoal(Goal goal, Pageable pageable);
+
 }

@@ -1,5 +1,6 @@
 package com.zero.weightTracker.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -27,6 +28,7 @@ public class WeightRecord {
 
     @ManyToOne
     @JoinColumn(name = "goals_id", nullable = false)
+    @JsonIgnore
     private Goal goal;
 
 }

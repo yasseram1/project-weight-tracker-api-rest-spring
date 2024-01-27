@@ -40,6 +40,7 @@ public class Goal {
     private User user;
 
     @OneToMany(mappedBy = "goal", fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<WeightRecord> weightRecords;
 
 }

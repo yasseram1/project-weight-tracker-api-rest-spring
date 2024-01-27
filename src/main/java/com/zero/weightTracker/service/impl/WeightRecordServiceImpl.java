@@ -20,9 +20,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
+import java.util.logging.Logger;
 
 @Service
 public class WeightRecordServiceImpl implements WeightRecordService {
@@ -77,6 +76,41 @@ public class WeightRecordServiceImpl implements WeightRecordService {
 
         } catch (Exception e) {
             return customResponses.customErrorResponse(List.of(e.getMessage()), "Ha ocurrido un error al crear nuevo objetivo de pérdida de peso");
+        }
+    }
+
+    @Override
+    public ResponseEntity<?> listWeightRecordOfGoal(HttpServletRequest http, Long idGoal, Pageable pageable) {
+
+        try {
+
+            Optional<Goal> goalOptional = goalRepository.findById(idGoal);
+
+            if(goalOptional.isPresent()) { // Si la meta existe entonces
+
+                User user = userUtil.getAuthenticatedUserFromToken(http);
+                Goal goal = goalOptional.get();
+
+                // Verificamos si la meta le pertecene al usuario del token
+                if(Objects.equals(goal.getUser().getId(), user.getId())) {
+
+                    // Como la meta si pertenece al usuario, obtenemos todas las marcas de peso relacionadas a esa meta
+                    Page<WeightRecord> listWeightRecordForGoal = weightRecordRepository.findByGoal(goal, pageable);
+                    return new ResponseEntity<>(listWeightRecordForGoal.getContent() ,HttpStatus.OK);
+
+                } else {
+                    return new ResponseEntity<>("No tienes permisos para acceder a la meta con id : " + idGoal,HttpStatus.BAD_REQUEST);
+                }
+
+
+            } else {
+                Map<String, String> map = new HashMap<>();
+                map.put("error", "La meta a la que intentas acceder no existe");
+                return new ResponseEntity<>(map,HttpStatus.BAD_REQUEST);
+            }
+
+        } catch (Exception exception) {
+            return new ResponseEntity<>("Ha ocurrido un error inesperado",HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }
