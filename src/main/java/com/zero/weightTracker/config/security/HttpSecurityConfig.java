@@ -43,6 +43,7 @@ public class HttpSecurityConfig {
                     authConfig.requestMatchers(HttpMethod.DELETE, "/api/v1/weightTracker/deleteGoal/**").hasAuthority("ROLE_" + Role.USER.name());
                     authConfig.requestMatchers(HttpMethod.PUT, "/api/v1/weightTracker/editGoal/**").hasAuthority("ROLE_" + Role.USER.name());
                     authConfig.requestMatchers(HttpMethod.POST, "/api/v1/weightTracker/createNewWeightRecord/**").hasAuthority("ROLE_" + Role.USER.name());
+                    authConfig.requestMatchers(HttpMethod.POST, "/api/v1/weightTracker/listWeightRecordOfGoal/**").hasAuthority("ROLE_" + Role.USER.name());
                     // Others
                     authConfig.anyRequest().denyAll();
                 });

@@ -44,9 +44,17 @@ public class WeightTrackerController {
         return goalService.editGoal(http, id, goalRequest, result);
     }
 
+    // WeightRecord EndPoints
     @PostMapping("/createNewWeightRecord/{id}")
     public ResponseEntity<?> createNewWeightRecord(HttpServletRequest http, @Valid @RequestBody NewWeightRecordRequest weightRecordRequest, BindingResult result, @PathVariable(name = "id") Long id) {
         return weightRecordService.createNewWeightRecord(http, weightRecordRequest, result, id);
     }
+
+
+    @GetMapping("/listWeightRecordOfGoal/{id}")
+    public ResponseEntity<?> listWeightRecordOfGoal(HttpServletRequest http, @PathVariable(name = "id") Long idGoal, Pageable pageable) {
+        return weightRecordService.listWeightRecordOfGoal(http, idGoal, pageable);
+    }
+
 
 }

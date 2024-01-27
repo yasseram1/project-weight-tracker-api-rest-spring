@@ -8,4 +8,5 @@ import org.springframework.validation.BindingResult;
 
 public interface WeightRecordService {
     ResponseEntity<?> createNewWeightRecord(HttpServletRequest http, NewWeightRecordRequest weightRecordRequest, BindingResult result, Long id);
+    ResponseEntity<?> listWeightRecordOfGoal(HttpServletRequest http, Long idGoal, Pageable pageable);
 }
