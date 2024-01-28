@@ -56,5 +56,10 @@ public class WeightTrackerController {
         return weightRecordService.listWeightRecordOfGoal(http, idGoal, pageable);
     }
 
+    @DeleteMapping("/deleteWeightRecord/{id}")
+    public ResponseEntity<?> deleteWeightRecord(HttpServletRequest http ,@RequestParam(name = "id") Long idWeightRecord) {
+        return weightRecordService.deleteWeightRecord(http, idWeightRecord);
+    }
+
 
 }

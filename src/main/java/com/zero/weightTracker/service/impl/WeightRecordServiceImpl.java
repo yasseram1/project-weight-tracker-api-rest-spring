@@ -110,7 +110,30 @@ public class WeightRecordServiceImpl implements WeightRecordService {
             }
 
         } catch (Exception exception) {
-            return new ResponseEntity<>("Ha ocurrido un error inesperado",HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>("Ha ocurrido un error inesperado : " + exception.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Override
+    public ResponseEntity<?> deleteWeightRecord(HttpServletRequest http, Long idWeightRecord) {
+        try {
+            Optional<WeightRecord> weightRecordOptional = weightRecordRepository.findById(idWeightRecord);
+            if(weightRecordOptional.isPresent()) {
+
+                User user = userUtil.getAuthenticatedUserFromToken(http)
+                WeightRecord weightRecord = weightRecordOptional.get();
+                Goal goal = weightRecord.getGoal();
+
+                if(Objects.equals(goal.getUser().getId(), user.getId())) {
+                    weightRecordRepository.deleteById(idWeightRecord);
+                    return new ResponseEntity<>("El registro de peso con el id " + idWeightRecord + "ha sido eliminado",HttpStatus.OK);
+                }
+                return new ResponseEntity<>("No tienes permisos para modificar el registro de peso con el id: " + idWeightRecord, HttpStatus.BAD_REQUEST);
+            }
+
+            return new ResponseEntity<>("El registro de peso que intenta eliminar no existe" , HttpStatus.BAD_REQUEST);
+        } catch (Exception exception) {
+            return new ResponseEntity<>("Ha ocurrido un error inesperado: " + exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }
