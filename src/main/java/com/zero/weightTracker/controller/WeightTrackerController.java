@@ -57,7 +57,7 @@ public class WeightTrackerController {
     }
 
     @DeleteMapping("/deleteWeightRecord/{id}")
-    public ResponseEntity<?> deleteWeightRecord(HttpServletRequest http ,@RequestParam(name = "id") Long idWeightRecord) {
+    public ResponseEntity<?> deleteWeightRecord(HttpServletRequest http ,@PathVariable(name = "id") Long idWeightRecord) {
         return weightRecordService.deleteWeightRecord(http, idWeightRecord);
     }
 

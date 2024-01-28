@@ -120,13 +120,13 @@ public class WeightRecordServiceImpl implements WeightRecordService {
             Optional<WeightRecord> weightRecordOptional = weightRecordRepository.findById(idWeightRecord);
             if(weightRecordOptional.isPresent()) {
 
-                User user = userUtil.getAuthenticatedUserFromToken(http)
+                User user = userUtil.getAuthenticatedUserFromToken(http);
                 WeightRecord weightRecord = weightRecordOptional.get();
                 Goal goal = weightRecord.getGoal();
 
                 if(Objects.equals(goal.getUser().getId(), user.getId())) {
                     weightRecordRepository.deleteById(idWeightRecord);
-                    return new ResponseEntity<>("El registro de peso con el id " + idWeightRecord + "ha sido eliminado",HttpStatus.OK);
+                    return new ResponseEntity<>("El registro de peso con el id " + idWeightRecord + " ha sido eliminado",HttpStatus.OK);
                 }
                 return new ResponseEntity<>("No tienes permisos para modificar el registro de peso con el id: " + idWeightRecord, HttpStatus.BAD_REQUEST);
             }
