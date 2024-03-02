@@ -64,8 +64,8 @@ public class GoalServiceImpl implements GoalService {
                     .user(user)
                     .build();
 
-            goalRepository.save(goal);
-            return customResponses.defaultResponse(Codes.SUCCESS.name(), "Nuevo objetivo de pérdida de peso creado con éxito.", HttpStatus.CREATED);
+            Goal goalCreated = goalRepository.save(goal);
+            return customResponses.defaultResponse(Codes.SUCCESS.name(), "" + goalCreated.getGoalsId(), HttpStatus.CREATED);
         } catch (Exception e) {
             return customResponses.customErrorResponse(List.of(e.getMessage()), "Ha ocurrido un error al crear nuevo objetivo de pérdida de peso");
         }

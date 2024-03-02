@@ -46,8 +46,8 @@ public class WeightTrackerController {
 
     // WeightRecord EndPoints
     @PostMapping("/createNewWeightRecord/{id}")
-    public ResponseEntity<?> createNewWeightRecord(HttpServletRequest http, @Valid @RequestBody NewWeightRecordRequest weightRecordRequest, BindingResult result, @PathVariable(name = "id") Long id) {
-        return weightRecordService.createNewWeightRecord(http, weightRecordRequest, result, id);
+    public ResponseEntity<?> createNewWeightRecord(HttpServletRequest http, @Valid @RequestBody NewWeightRecordRequest weightRecordRequest, BindingResult result, @PathVariable(name = "id") Long goalId) {
+        return weightRecordService.createNewWeightRecord(http, weightRecordRequest, result, goalId);
     }
 
 
